@@ -7,7 +7,7 @@ services:
         container_name: airflow-redis
 
     postgres:
-        image: postgres:9.6
+        image: postgres:12
         container_name: airflow_postgres
         environment:
             - POSTGRES_USER=airflow
@@ -96,4 +96,4 @@ services:
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
             # - REDIS_PASSWORD=redispass
-        command: worker
+        command: celery worker

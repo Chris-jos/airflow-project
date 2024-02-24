@@ -109,19 +109,20 @@ fi
 
 case "$1" in
   webserver)
-    airflow initdb
+    airflow db init
+    airflow users create --username chris --password cjc --firstname christopher --lastname jose --role Admin --email airflow@airflow.com
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ] || [ "$AIRFLOW__CORE__EXECUTOR" = "SequentialExecutor" ]; then
       # With the "Local" and "Sequential" executors it should all run in one container.
       airflow scheduler &
     fi
     exec airflow webserver
     ;;
-  worker|scheduler)
+  celery|scheduler)
     # Give the webserver time to run initdb.
     sleep 10
     exec airflow "$@"
     ;;
-  flower)
+  celery)
     sleep 10
     exec airflow "$@"
     ;;
